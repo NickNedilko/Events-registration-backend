@@ -3,7 +3,8 @@ import logger from "morgan";
 import cors from "cors";
 import "dotenv/config";
 
-import eventsRouter from "./routes/api/events-router.js";
+import eventsRouter from "./routes/api/events.js";
+
 
 
 const app = express();
