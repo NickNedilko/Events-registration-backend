@@ -10,7 +10,7 @@ const participantSchema = new Schema( {
       type: String,
       required: [true, 'Email is required'],
   },
-  birthdate: {
+  dateOfBirth: {
     type: Date,
   },
   avatar: {
