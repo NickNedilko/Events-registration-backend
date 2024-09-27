@@ -1,7 +1,7 @@
 import mongoose, {Schema, model} from "mongoose";
 
 const participantSchema = new Schema( {
-  name: {
+  fullName: {
       type: String,
       required:  [true, 'Name is required'],
   },
@@ -14,7 +14,7 @@ const participantSchema = new Schema( {
     },
   info: {
       type: String,
-      enum: ['social media', 'friends', 'found myself'],
+      enum: ['Social media', 'Friends', 'Found myself'],
       required: [true, 'Please choose the data'],
     },
     owner: {
@@ -22,6 +22,10 @@ const participantSchema = new Schema( {
       ref: "Event",
     },
 },
+  {
+    versionKey: false,
+    timestamps: true
+}
 );
 
 const Participant = model('participant', participantSchema);

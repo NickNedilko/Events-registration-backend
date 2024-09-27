@@ -14,6 +14,10 @@ const eventSchema = new Schema({
     organizer: {
         type: String,
       },
+},
+{
+    versionKey: false,
+    timestamps: true
 })
   
 const Event = model('event', eventSchema);
