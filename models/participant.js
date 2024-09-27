@@ -1,4 +1,5 @@
 import mongoose, {Schema, model} from "mongoose";
+import crypto from 'crypto';
 
 const participantSchema = new Schema( {
   fullName: {
@@ -11,7 +12,10 @@ const participantSchema = new Schema( {
   },
   birthdate: {
     type: Date,
-    },
+  },
+  avatar: {
+    type: String
+  },
   info: {
       type: String,
       enum: ['Social media', 'Friends', 'Found myself'],
@@ -27,6 +31,13 @@ const participantSchema = new Schema( {
     timestamps: true
 }
 );
+participantSchema.pre('save', async function (next) {
+    if (this.isNew) {
+        const emailHash = crypto.createHash('md5').update(this.email).digest('hex');
+        this.avatar = `https://www.gravatar.com/avatar/${emailHash}?d=monsterid`
+    }
+    next();
+})
 
 const Participant = model('participant', participantSchema);
 

@@ -5,7 +5,12 @@ import * as eventsServices from "../services/events-services.js";
 
 const getEvents = async (req, res) => {
     const page = parseInt(req.query.page);
-    const events = await eventsServices.getEventsPagination(page);
+    const sortBy = req.query.sortBy || 'eventDate'; // Default sorting by event date
+    const order = req.query.order === 'desc' ? -1 : 1; // Default ascending order
+    const sortOptions = {};
+    sortOptions[sortBy] = order;
+    
+    const events = await eventsServices.getEventsPagination(page).sort(sortOptions);
     const allEvents = await eventsServices.getAllEvents()
     const quantity = allEvents.length + 1
    return  res.status(200).json({
@@ -31,9 +36,13 @@ const eventRegistration = async (req, res) => {
 
 
 export const getEventParticipants = async (req, res) => {
-    const{ id: owner }= req.params;
+    const { id: owner } = req.params;
+    const event = await Event.findById(owner);
     const participants = await Participant.find({owner}, "-createdAt -updatedAt")
-    res.status(200).json({participants});
+    res.status(200).json({
+        participants,
+        event_title: event.title
+    });
     
 }
 
